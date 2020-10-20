@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>题库</title>
+    <script src="/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+<body class="gray-bg">
+<div class="container-div" style="height: 70px">
+    <div class="row">
+        <div class="col-sm-12 search-collapse"></form>
+        </div>
+    </div>
+</div>
+<div class="row wrapper wrapper-content animated fadeInRight" style="width: 800px;margin: 0 auto;background: #f6f6f6;">
+    <div class="col-sm-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>题目</h5>
+            </div>
+            <div class="ibox-content" id="content">
+            </div>
+            <button style="width: 100%;" onclick="submitBut();" type="button" class="btn btn-primary">提    交</button>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+    var questionLibrary= [[${questionLibrary}]];
+    var applicationQuestions= [[${applicationQuestions}]];
+    var html = $("#content");
+    var str = "";
+    var i =1;
+    questionLibrary.map(function (n) {
+        str+="<h3 class='font-bold'>"+i+"、"+n.title+"</h3>";
+        n.selectOptions.map(function (n) {
+            str +=
+                "<p><label class='checkbox-inline'><input type='radio' name='optionsRadiosinline' id='optionsRadios3' value='option1'>&nbsp;&nbsp;&nbsp;&nbsp;"+n.options+"</label></p>"
+        });
+        str+="<p style='padding-bottom: 30px;padding-top: 10px;display: none;'><b>解析：</b>"+n.analyze+"</p>";
+        i++;
+    });
+    applicationQuestions.map(function (n) {
+        str +=
+        "<h3 class='font-bold'>"+i+"、"+n.options+"</h3><textarea class='form-control' rows='3' maxlength='150' style='border: none;outline:none;resize:none;height: 150px;\n" +
+            "    margin-bottom: 10px;' placeholder='最大可写150字'></textarea>";
+        str+="<p style='padding-bottom: 30px;padding-left: 20px;display: none;'><b>解析：</b>"+n.analysis+"</p>";
+        i++;
+    });
+    html.append(str);
+    function submitBut() {
+        $('p').css('display','block');
+    }
+</script>
+</body>
+</html>

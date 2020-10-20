@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shiro.demo.dao.SysCourseMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="CourseMap" type="com.shiro.demo.pojo.SysCourse">
+        <id column="course_id" property="courseId" />
+        <result column="course_name" property="courseName" />
+        <result column="course_url" property="courseUrl" />
+        <result column="course_description" property="courseDescription" />
+        <result column="course_user_id" property="courseUserId" />
+        <result column="class_id" property="classId" />
+        <result column="user_name" property="userName" />
+        <result column="class_name" property="className" />
+        <result column="discounted_price" property="discountedPrice" />
+        <result column="coutse_discounted" property="coutseDiscounted" />
+        <result column="coutse_prices" property="coutsePrices" />
+        <result column="prices_id" property="pricesId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="CourseSQL">
+        ${alias}.course_id, ${alias}.course_name, ${alias}.course_url, ${alias}.course_description,
+        ${alias}.course_user_id,
+        ${alias}.class_id
+    </sql>
+    <sql id="PricesSQL">
+        ${alias}.prices_id,${alias}.coutse_prices,${alias}.coutse_discounted,${alias}.discounted_price
+    </sql>
+    <select id="queryCourseById" parameterType="Long" resultMap="CourseMap">
+        SELECT
+        <include refid="CourseSQL"><property name="alias" value="sc"/></include>,
+        su.user_name,
+        scc.class_name,
+        <include refid="PricesSQL"><property name="alias" value="sp"/></include>
+        FROM
+        sys_course sc
+        LEFT JOIN sys_user su ON sc.course_user_id = su.user_id
+        LEFT JOIN sys_course_class scc ON sc.class_id = scc.class_id
+        LEFT JOIN sys_prices sp ON sc.course_id = sp.course_id
+        <if test="courseId != null and courseId != ''">
+            where sc.course_id = #{courseId}
+        </if>
+    </select>
+    <select id="selectCourseList" parameterType="com.shiro.demo.pojo.SysCourse" resultMap="CourseMap">
+        SELECT
+        <include refid="CourseSQL"><property name="alias" value="sc"/></include>,
+        su.user_name,
+        scc.class_name,
+        <include refid="PricesSQL"><property name="alias" value="sp"/></include>
+        FROM
+        sys_course sc
+        LEFT JOIN sys_user su ON sc.course_user_id = su.user_id
+        LEFT JOIN sys_course_class scc ON sc.class_id = scc.class_id
+        LEFT JOIN sys_prices sp ON sc.course_id = sp.course_id
+        <if test="courseName != null and courseName != ''">
+            where sc.course_name like concat('%', #{courseName}, '%')
+        </if>
+        <if test="classId != null and classId != ''">
+            where sc.class_id = #{classId}
+        </if>
+    </select>
+    <select id="queryCourseInfoByIds" resultMap="CourseMap">
+        select <include refid="CourseSQL"><property name="alias" value="sc"/></include>
+         from sys_course sc where sc.course_id in
+        <foreach collection="companyIds" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+    <select id="seniorCourses" resultMap="CourseMap">
+        SELECT
+        <include refid="CourseSQL"><property name="alias" value="sc"/></include>,
+        su.user_name,
+        scc.class_name,
+        <include refid="PricesSQL"><property name="alias" value="sp"/></include>
+        FROM
+        sys_course sc
+        LEFT JOIN sys_user su ON sc.course_user_id = su.user_id
+        LEFT JOIN sys_course_class scc ON sc.class_id = scc.class_id
+        LEFT JOIN sys_prices sp ON sc.course_id = sp.course_id
+        <if test="courseName != null and courseName != ''">
+            where sc.course_name like concat('%', #{courseName}, '%')
+        </if>
+    </select>
+    <select id="getFreeCourses" resultMap="CourseMap">
+    SELECT
+        <include refid="CourseSQL"><property name="alias" value="sysc"/></include>,
+        su.user_name,
+        scc.class_name,
+        <include refid="PricesSQL"><property name="alias" value="sp"/></include>
+        FROM
+        (SELECT sc.* FROM sys_course sc,( SELECT
+        course_id FROM sys_chapters WHERE chapters_purchase = '0' GROUP BY course_id ) tm
+    WHERE
+	    sc.course_id = tm.course_id LIMIT 6) sysc
+        LEFT JOIN sys_user su ON sysc.course_user_id = su.user_id
+        LEFT JOIN sys_course_class scc ON sysc.class_id = scc.class_id
+        LEFT JOIN sys_prices sp ON sysc.course_id = sp.course_id
+	</select>
+
+    <select id="basicCourse" resultMap="CourseMap">
+        SELECT
+        sysc.*,
+        su.user_name,
+        scc.class_name,
+        sp.*
+        FROM
+        (SELECT sc.* FROM sys_course sc,( SELECT
+        course_id FROM sys_chapters WHERE chapters_purchase = '0' GROUP BY course_id ) tm
+    WHERE
+	    sc.course_id = tm.course_id LIMIT 3) sysc
+        LEFT JOIN sys_user su ON sysc.course_user_id = su.user_id
+        LEFT JOIN sys_course_class scc ON sysc.class_id = scc.class_id
+        LEFT JOIN sys_prices sp ON sysc.course_id = sp.course_id
+    order by sysc.course_id desc
+    </select>
+
+</mapper>

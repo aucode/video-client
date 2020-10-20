@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh" class="" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+	<title>个人中心</title>
+
+
+	<link rel="stylesheet" type="text/css" href="/revolution/css/settings.css">
+ 
+	<link rel="stylesheet" type="text/css" href="/revolution/css/layers.css">
+	<link rel="stylesheet" type="text/css" href="/revolution/css/navigation.css">
+	
+    <link rel="stylesheet" type="text/css" href="/libraries/lib.css">
+	
+	<link rel="stylesheet" type="text/css" href="/css/plugins.css">
+	<link rel="stylesheet" type="text/css" href="/css/navigation-menu.css">
+	<link rel="stylesheet" type="text/css" href="/css/shortcode.css">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="/css/style.min.css" rel="stylesheet">
+	
+	
+
+</head>
+
+<body data-offset="200" data-spy="scroll" data-target=".ow-navigation">
+	<div class="main-container">
+		<div id="site-loader" class="load-complete">
+			<div class="loader">
+				<div class="loader-inner ball-clip-rotate">
+					<div></div>
+				</div>
+			</div>
+		</div>
+		
+		<header class="header-section header-section-1 container-fluid no-padding" style="padding-right: 0px;padding-left: 0px;">
+			<div class="container-fluid no-padding menu-block"style="background-color: #FFFFFF;border-bottom: 1px #b4b4b4 solid;">
+				<div class="container">
+					<nav class="navbar navbar-default ow-navigation" style="float: left;">
+						<div class="navbar-header">
+							<button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+							<a href="/" class="navbar-brand">网站 <span>首页</span></a>
+						</div>
+						<div class="navbar-collapse collapse" id="navbar">
+							<ul class="nav navbar-nav">
+								<li><a href="/">首页</a></li>
+								<li><a href="/shopping/library">题库</a></li>
+								<li><a href="/shopping/mycart">我的订单</a></li>
+								<li><a href="/mycourse/my-course">我的课程</a></li>
+								<li><a href="/logout">退出</a></li>
+							</ul>
+						</div>
+					</nav>
+				</div>
+			</div>
+		</header>
+
+    <main class="lyear-layout-content" style="padding-top: 0px;padding-left: 0px;">
+      
+        <div class="container-fluid">
+          
+          <div class="row" style="margin-right: 50px;margin-left: 160px;padding-top: 0px;">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-body">
+                  
+                  <div class="edit-avatar">
+                    <div class="avatar-divider"></div>
+                    <div class="edit-avatar-content">
+                      <button class="btn btn-default"  disabled="disabled" >修改个人信息</button>
+                    </div>
+                  </div>
+                  <hr>
+                  <form method="post" action="/userChange" class="site-form">
+                    <div class="form-group">
+                      <label for="uid"></label>
+                      <input type="hidden" class="form-control" name="uid" id="uid" th:value="${user.uid}"
+					  />
+                    </div>
+                    <div class="form-group">
+                      <label for="loginname">昵称</label>
+                      <input type="text" class="form-control" name="loginname" id="loginname" placeholder="输入您的昵称"
+							 th:value="${user.loginname}">
+                    </div>
+                    <div class="form-group">
+                      <label for="username">登录名</label>
+                      <input type="text" class="form-control" name="username" id="username" placeholder="输入您的登录名"
+							 th:value="${user.username}" disabled="disabled">
+                    </div>
+                    <div class="form-group">
+                      <label for="password">密码</label>
+                      <input type="password" class="form-control" name="password" id="password" placeholder="输入您的密码"
+							 >
+                    </div>
+					  <div class="form-group">
+						  <label for="uid">电话号码</label>
+						  <input type="text" class="form-control" name="phonenumber" id="phonenumber"
+								 placeholder="功能未开放......"
+								 disabled="disabled" />
+					  </div>
+                    <button type="submit" class="btn btn-primary"  >确认修改</button>
+                  </form>
+         
+                </div>
+              </div>
+            </div>
+            
+          </div>
+          
+        </div>
+        
+      </main>
+
+	</div>
+
+	<script src="/js/jquery.min.js"></script>
+
+	<script src="/libraries/lib.js"></script>
+	
+	<script src="/libraries/jquery.countdown.min.js"></script>
+	<script type="text/javascript" src="/revolution/js/jquery.themepunch.tools.min.js?rev=5.0"></script>
+	<script type="text/javascript" src="/revolution/js/jquery.themepunch.revolution.min.js?rev=5.0"></script>
+	<script type="text/javascript" src="/revolution/js/extensions/revolution.extension.video.min.js"></script>
+	<script type="text/javascript" src="/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+	<script type="text/javascript" src="/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+	<script type="text/javascript" src="/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+	
+	<script src="/js/functions.js"></script>
+	<div class="modal fade in" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: block;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true" onclick="modal();">×
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+						消息提示
+					</h4>
+				</div>
+				<div class="modal-body">
+					用户名已存在。
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary"
+							data-dismiss="modal" onclick="modal();">关闭
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	<script th:inline="javascript">
+		var hidden = [[${error}]];
+		if(hidden){
+			$("#myModal").css("display","block");
+
+		}else {
+			$("#myModal").css("display","none");
+		}
+		function modal() {
+			$("#myModal").css("display","none");
+		}
+	</script>
+</body>
+</html>
+	
+

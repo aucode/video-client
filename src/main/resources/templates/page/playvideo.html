@@ -1,0 +1,354 @@
+﻿<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html class="ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html class="ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--><html lang="zh" class="" xmlns:th="http://www.thymeleaf.org"><!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+	<title>视频播放</title>
+
+
+	
+
+	<!-- Library - Google Font Familys -->
+	<link href="https://fonts.googleapis.com/css?family=Arizonia|Crimson+Text:400,400i,600,600i,700,700i|Lato:100,100i,300,300i,400,400i,700,700i,900,900i|Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+	
+	<link rel="stylesheet" type="text/css" href="/revolution/css/settings.css">
+ 
+	<!-- RS5.0 Layers and Navigation Styles -->
+	<link rel="stylesheet" type="text/css" href="/revolution/css/layers.css">
+	<link rel="stylesheet" type="text/css" href="/revolution/css/navigation.css">
+	
+	<!-- Library - Bootstrap v3.3.5 -->
+    <link rel="stylesheet" type="text/css" href="/libraries/lib.css">
+	
+	<!-- Custom - Common CSS -->
+	<link rel="stylesheet" type="text/css" href="/css/plugins.css">
+	<link rel="stylesheet" type="text/css" href="/css/navigation-menu.css">
+	<link rel="stylesheet" type="text/css" href="/css/shortcode.css">
+	<link rel="stylesheet" type="text/css" href="/style.css">
+	<!--封装好的视频布局样式-->
+	<link rel="stylesheet" href="/css/jsmodern-4.1.4.min.css">
+
+	<!-- JQuery v1.12.4 -->
+	<script src="/js/jquery.min.js"></script>
+	<!--[if lt IE 9]>
+		<script src="/js/html5/respond.min.js"></script>
+    <![endif]-->
+	<style>
+		#video {
+			/* padding-top: 50px; */
+			width: 820px;
+    		height: 437px;
+			/* margin: 0 auto; */
+			/* position: relative; */
+			float: left;
+		}
+		
+		#video video {
+			width: 100%;
+			height: 100%;
+			object-fit: fill;
+		}
+		
+		.VideoBtn {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			display: block;
+			width: 70px;
+			height: 70px;
+			margin-left: -35px;
+			margin-top: -35px;
+			cursor: pointer;
+			z-index: 10;
+		}
+		h3{
+			margin-top: 0px;
+			margin-bottom: 0px;
+		}
+		.box1 {
+			margin-top: 6px;
+			height: 500px;
+		}
+		.box1 .main {
+			width: 1160px;
+			box-shadow: 0 0px 20px rgba(0,0,0,.13);
+			padding: 15px 20px;
+			margin: 20px auto;
+			background: #f8fafc;
+		}
+		.clear {
+			overflow: hidden;
+		}
+		.box1 .fr {
+			width: 300px;
+			float: right;
+		}
+		.multi-page {
+			margin-bottom: 20px;
+			position: relative;
+			background: #f4f4f4;
+			z-index: 1;
+		}
+		.multi-page .head-con {
+			display: -ms-flexbox;
+			display: flex;
+			color: #222;
+			padding: 10px 16px 0;
+		}
+		.multi-page .head-con h3 {
+			font-size: 16px;
+			font-weight: 400;
+		}
+		.multi-page .head-con .range-box {
+			-ms-flex: 1;
+			flex: 1;
+		}
+		.multi-page .head-con .range-box .cur-page {
+			float: right;
+			font-size: 12px;
+			color: #999;
+			line-height: 16px;
+		}
+		.multi-page .cur-list {
+			padding: 4px 0;
+			transition: all .3s;
+		}
+		.multi-page .cur-list .list-box {
+			padding: 0 6px;
+			max-height: 384px;
+			overflow: auto;
+		}
+		ol, ul {
+			list-style: none;
+			outline: none;
+		}
+		.multi-page .cur-list .list-box li.on {
+			background: #fff;
+			padding: 0 6px;
+		}
+		.multi-page .cur-list .list-box li {
+			display: block;
+			height: 30px;
+			line-height: 30px;
+			padding: 0 10px;
+			color: #6d757a;
+			margin: 5px 0;
+			transition: all .3s;
+			border-radius: 3px;
+			cursor: pointer;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.multi-page .cur-list .list-box li.on>a {
+			color: #03a0d6;
+			font-size: 12px;
+		}
+		.multi-page .cur-list .list-box li a {
+			font-size: 12px;
+			color: #212121;
+			display: block;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.multi-page .cur-list .list-box li .s1 {
+			margin-right: 10px;
+		}
+		</style>
+</head>
+
+<body data-offset="200" data-spy="scroll" data-target=".ow-navigation">
+	<div class="main-container">
+		<!-- Loader -->
+		<div id="site-loader" class="load-complete">
+			<div class="loader">
+				<div class="loader-inner ball-clip-rotate">
+					<div></div>
+				</div>
+			</div>
+		</div><!-- Loader /- -->	
+		
+		<!-- Header -->
+		<header class="header-section header-section-1 container-fluid no-padding">
+			<!-- Menu Block -->
+			<div class="container-fluid no-padding menu-block" style="background-color: #ffffff;">
+				<!-- Container -->
+				<div class="container">
+					<!-- nav -->
+					<nav class="navbar navbar-default ow-navigation">
+						<div class="navbar-header">
+							<button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+							<a href="/" class="navbar-brand">网站 <span>首页</span></a>
+						</div>
+						<div class="navbar-collapse collapse" id="navbar">
+							<ul class="nav navbar-nav" style="text-align: left;border-bottom: 1px black solid;color: #747474;">
+								<li><a href="/" style="color: #373737;font-weight: bold;">首页</a></li>
+								视频名称
+							</ul>
+						</div><!--/.nav-collapse -->
+					</nav><!-- nav /- -->
+				</div><!-- Container /- -->
+			</div><!-- Menu Block /- -->
+		</header><!-- Header /- -->
+		
+		<main style="margin-top: 40px;">
+			<div class="box1">
+				<div class="box_In">
+					<div class="main clear">
+						<div id="video">
+							<video width="320" height="240" controls="controls" autoplay="autoplay">
+								<source th:src="'http://114.116.226.207:8080/'+${videore}"  type="video/mp4">
+								<source src="movie.ogg"  type="video/ogg">
+								您的浏览器不支持 HTML5 video 标签。
+							</video>
+<!--							<video th:src="'http://114.116.226.207:8080/'+${videore}"  id="videoShow" ></video>-->
+<!--							<video src="http://114.116.226.207:8080///profile/upload/2020/08/09/8077665c-26e7-4acf-af7b-ccb6e70813ce.mp4"  id="videoShow" ></video>-->
+						</div>
+						<div class="multi-page report-wrap-module report-scroll-module fr" scrollshow="true" style="height: 450px;">
+							<div class="head-con">
+								<h3>视频选集</h3>
+								<div class="range-box">
+									<i class="van-icon-general_viewlist"></i>
+									<span class="cur-page" th:text="${chapters.size()}">1/210</span>
+								</div>
+							</div>
+							<div class="cur-list">
+								<ul class="list-box">
+									<li th:each="item : ${chapters}"
+										th:class="(${item.chaptersId}==${chaptersId}?'watched on':' ')">
+										<a
+												th:href="'/video/959d00bfe7a36ff38fae994f43ecf5b3?courseId='+${item.courseId}+'&chaptersId='+${item.chaptersId}"
+										   class=""
+										   th:title="${item.chaptersName}"
+										   >
+											<span class="s1" th:text="'P'+${itemStat.count}">P1</span>
+											<span th:text="${item.chaptersName}">01-项目概述-功能构架-项目背景</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<!-- 模态框（Modal） -->
+		<div class="modal fade in" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+			 aria-hidden="true" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true" onclick="modal();">×
+						</button>
+						<h4 class="modal-title" id="myModalLabel">
+							消息提示
+						</h4>
+					</div>
+					<div class="modal-body">
+						未购买该课程。
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary"
+								data-dismiss="modal" onclick="modal();">关闭
+						</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		<script th:inline="javascript">
+			var hidden = [[${hidden}]];
+			if(hidden){
+				$("#myModal").css("display","block");
+
+			}else {
+				$("#myModal").css("display","none");
+			}
+			function modal() {
+				$("#myModal").css("display","none");
+			}
+		</script>
+	</div>
+	
+
+
+	<!-- Library - Js -->
+	<script src="/libraries/lib.js"></script>
+	
+	<script src="/libraries/jquery.countdown.min.js"></script>
+	
+	<!-- RS5.0 Core JS Files -->
+	<script type="text/javascript" src="/revolution/js/jquery.themepunch.tools.min.js?rev=5.0"></script>
+	<script type="text/javascript" src="/revolution/js/jquery.themepunch.revolution.min.js?rev=5.0"></script>
+	<script type="text/javascript" src="/revolution/js/extensions/revolution.extension.video.min.js"></script>
+	<script type="text/javascript" src="/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+	<script type="text/javascript" src="/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+	<script type="text/javascript" src="/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+	
+	<!-- Library - Google Map API -->
+	<!---<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW40y4kdsjsz714OVTvrw7woVCpD8EbLE"></script>--->
+
+	<!-- Library - Theme JS -->
+	<!--mp4视频插件-->
+	<script src="/js/jsmodern-4.1.4.min.js"></script>
+	<script src="/js/functions.js"></script>
+	<script>
+		$(function () {
+			//视频
+			jsModern.video("#video");
+			//播放视频
+			$(".VideoBtn").click(function () {
+				var video = document.getElementById("videoShow");
+				video.play();
+				$('.VideoBtn').hide();
+			})
+			//监听视频的播放状态
+			var video = document.getElementById("videoShow");
+			video.oncanplay = function () {
+				$(".VideoBtn").show();
+				//$("#video").attr("poster","");
+			}
+			//视频播放事件
+			video.onplay = function () {
+				$("#videoShow").attr("poster", "");
+				$(".VideoBtn").hide();
+			};
+			video.onplaying = function () {
+				$(".VideoBtn").hide();
+			};
+		
+			//视频暂停事件
+			video.onpause = function () {
+				$(".VideoBtn").show();
+			};
+			//点击视频周围暂停播放图片出现
+			video.onclick = function () {
+				if (video.paused) {
+					$(".VideoBtn").hide();
+					video.play();
+				} else {
+					$(".VideoBtn").show();
+					video.pause();
+				}
+			};
+		})
+	</script>	
+</body>
+</html>
+	
+

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>题库</title>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <!-- JQuery v1.12.4 -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+<body id="librarys">
+<ul id="myTab" class="nav nav-tabs">
+<!--    <li class="active">-->
+<!--        <a href="#home" data-toggle="tab">-->
+<!--            菜鸟教程-->
+<!--        </a>-->
+<!--    </li>-->
+<!--    <li><a href="#ios" data-toggle="tab">iOS</a></li>-->
+</ul>
+<div id="myTabContent" class="tab-content">
+
+</div>
+</body>
+<script th:inline="javascript">
+    var librarys = [[${librarys}]];
+    var myTab = $("#myTab");
+    var myTabContent = $("#myTabContent");
+    var myTabHtml = "";
+    var myTabContentHtml = "";
+    var i=0;
+    librarys.map(function (n) {
+        if(i == 0){
+            myTabHtml+= "<li class='active'><a href='#"+i+"' data-toggle='tab'>"+n.className+"</a></li>";
+
+            myTabContentHtml += "<div class='tab-pane fade in active' id='"+i+"'><p>";
+
+            n.questionLibrary.map(function (p) {
+                myTabContentHtml +=
+                    "<a class='btn btn-outline-success btn-sm' target='_blank' href='/shopping/7770301CC5E3C4EBEC17DC1C0A53CA06/"+p.libraryId+"'>"+p.title+"</a>";
+            });
+            myTabContentHtml +="</p></div>";
+        }else{
+            myTabHtml+= "<li><a href='#"+i+"'' data-toggle='tab'>"+n.className+"</a></li>";
+            myTabContentHtml += "<div class='tab-pane fade' id='"+i+"'><p>";
+
+            n.questionLibrary.map(function (p) {
+                myTabContentHtml +=
+                    "<a class='btn btn-outline-success btn-sm' target='_blank' href='/shopping/7770301CC5E3C4EBEC17DC1C0A53CA06/"+p.libraryId+"'>"+p.title+"</a>";
+            });
+            myTabContentHtml +="</p></div>";
+        }
+        i++;
+    })
+    myTab.append(myTabHtml)
+    myTabContent.append(myTabContentHtml)
+</script>
+</html>

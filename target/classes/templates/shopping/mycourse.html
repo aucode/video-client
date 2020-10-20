@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html class="ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html class="ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--><html lang="zh" class="" xmlns:th="http://www.thymeleaf.org"><!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+	<title>My Course</title>
+	<!-- Library - Google Font Familys -->
+	<link href="https://fonts.googleapis.com/css?family=Arizonia|Crimson+Text:400,400i,600,600i,700,700i|Lato:100,100i,300,300i,400,400i,700,700i,900,900i|Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+	
+	<link rel="stylesheet" type="text/css" href="/revolution/css/settings.css">
+ 
+	<!-- RS5.0 Layers and Navigation Styles -->
+	<link rel="stylesheet" type="text/css" href="/revolution/css/layers.css">
+	<link rel="stylesheet" type="text/css" href="/revolution/css/navigation.css">
+	
+	<!-- Library - Bootstrap v3.3.5 -->
+    <link rel="stylesheet" type="text/css" href="/libraries/lib.css">
+	
+	<!-- Custom - Common CSS -->
+	<link rel="stylesheet" type="text/css" href="/css/plugins.css">
+	<link rel="stylesheet" type="text/css" href="/css/navigation-menu.css">
+	<link rel="stylesheet" type="text/css" href="/css/shortcode.css">
+	<link rel="stylesheet" type="text/css" href="/style.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<!-- JQuery v1.12.4 -->
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+
+
+	<!--[if lt IE 9]>
+		<script src="/js/html5/respond.min.js"></script>
+    <![endif]-->
+	
+</head>
+
+<body data-offset="200" data-spy="scroll" data-target=".ow-navigation">
+	<div class="main-container">
+		<!-- Loader -->
+		<div id="site-loader" class="load-complete">
+			<div class="loader">
+				<div class="loader-inner ball-clip-rotate">
+					<div></div>
+				</div>
+			</div>
+		</div><!-- Loader /- -->	
+		
+		<!-- Header -->
+		<header class="header-section header-section-1 container-fluid no-padding">
+			<!-- Menu Block -->
+			<div class="container-fluid no-padding menu-block" style="background-color: #FFFFFF;border-bottom: 1px #b4b4b4 solid;">
+				<!-- Container -->
+				<div class="container">
+					<!-- nav -->
+					<nav class="navbar navbar-default ow-navigation" style="float: left;">
+						<div class="navbar-header">
+							<button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+							<a href="/" class="navbar-brand">网站 <span>首页</span></a>
+						</div>
+						<div class="navbar-collapse collapse" id="navbar">
+							<ul class="nav navbar-nav">
+								<li><a href="/index">首页</a></li>
+								<li><a href="/shopping/mycart">我的订单</a></li>
+								<li><a href="/logout">退出</a></li>
+							</ul>
+						</div><!--/.nav-collapse -->
+					</nav><!-- nav /- -->
+				</div><!-- Container /- -->
+			</div><!-- Menu Block /- -->
+		</header><!-- Header /- -->
+		
+		<main style="margin-top: 40px;">
+						<!-- Dealing Section2 -->
+                        <div id="dealing" class="dealing-section2 shop-single dealing-section container-fluid no-padding">
+                            <!-- Container -->
+                            <div class="container">
+                                <!-- Section Header -->
+                                <div class="section-header">
+                                    <h3>我的课程</h3>
+                                </div><!-- Section Header /- --> 
+                                <ul class="products"  style="margin-left: 90px;">
+                                    <!-- Product -->
+                                    <li class="product design" th:each="item : ${mycourse.list}">
+                                        <a th:href="'/play/1249297909e20e53885d26c910575f53/'+${item.courseId}">
+                                            <img style='height: 300px;width: 270px;'
+												 th:src="'http://114.116.226.207:8080/'+${item.courseUrl}" alt="Product">
+                                            <h5 th:text="${item.courseName}">Stylish Chair</h5>
+                                            <span class="price"  style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;"
+											 th:text="${item.courseDescription}"><del>$220</del></span>
+                                        </a>
+                                    </li><!-- Product /- -->
+								</ul>
+                            </div><!-- Container /- -->
+                        </div><!-- Dealing Section2 -->
+						<div style="text-align: center;margin-bottom: 30px;">
+							<ul class="pagination">
+							</ul>
+							<script th:inline="javascript">
+								var paging = [[${mycourse}]];
+								var htmlStr = "";
+								if(paging.isFirstPage == true && paging.isLastPage == false){
+									for(var i = 0;i<paging.pages;i++){
+										if(paging.pageNum == (i +1)){
+											htmlStr +=
+													"<li class='active'><a href='/mycourse/list?page="+(i +1)+"'>"+(i +1)+"</a></li>";
+										}else {
+											htmlStr += "<li><a href='/mycourse/list?page="+(i +1)+"'>"+(i +1)+"</a></li>";
+										}
+									}
+									htmlStr += "<li><a href='/mycourse/list?page="+paging.nextPage+"'>&raquo;</a></li>";
+								}
+								if(paging.isLastPage == true && paging.isFirstPage == false){
+									htmlStr += "<li><a href='/mycourse/list?page="+paging.prePage+"'>&laquo;</a></li>";
+									for(var i = 0;i<paging.pages;i++){
+										if(paging.pageNum == (i +1)){
+											htmlStr += "<li class='active'><a href='/mycourse/list?page="+(i +1)+"'>"+(i +1)+"</a></li>";
+										}else {
+											htmlStr += "<li><a href='/mycourse/list?page="+(i +1)+"'>"+(i +1)+"</a></li>";
+										}
+									}
+								}
+								if(paging.isLastPage == false && paging.isFirstPage == false){
+									htmlStr += "<li><a href='/mycourse/list?page="+paging.prePage+"'>&laquo;</a></li>";
+									for(var i = 0;i<paging.pages;i++){
+										if(paging.pageNum == (i +1)){
+											htmlStr += "<li class='active'><a href='/mycourse/list?page="+(i +1)+"'>"+(i +1)+"</a></li>";
+										}else {
+											htmlStr += "<li><a href='/mycourse/list?page="+(i +1)+"'>"+(i +1)+"</a></li>";
+										}
+									}
+									htmlStr += "<li><a href='/mycourse/list?page="+paging.nextPage+"'>&raquo;</a></li>";
+								}
+								if(paging.isLastPage == true && paging.isFirstPage == true){
+									for(var i = 0;i<paging.pages;i++){
+										htmlStr += "<li><a href='/mycourse/list?page="+(i +1)+"'>"+(i +1)+"</a></li>";
+									}
+								}
+								$(".pagination").append(htmlStr);
+							</script>
+						</div>
+		</main>
+		
+
+	</div>
+	
+
+	<script src="/libraries/lib.js"></script>
+	
+	<script src="/libraries/jquery.countdown.min.js"></script>
+	
+	<script type="text/javascript" src="/revolution/js/jquery.themepunch.tools.min.js?rev=5.0"></script>
+	<script type="text/javascript" src="/revolution/js/jquery.themepunch.revolution.min.js?rev=5.0"></script>
+	<script type="text/javascript" src="/revolution/js/extensions/revolution.extension.video.min.js"></script>
+	<script type="text/javascript" src="/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+	<script type="text/javascript" src="/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+	<script type="text/javascript" src="/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+	
+	<script src="/js/functions.js"></script>
+	
+</body>
+</html>
+	
+

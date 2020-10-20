@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>登录页面 </title>
+<link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css" rel="stylesheet">
+<link th:href="@{/css/materialdesignicons.min.css}" href="css/materialdesignicons.min.css" rel="stylesheet">
+<link th:href="@{/css/style.min.css}" href="css/style.min.css" rel="stylesheet">
+<style>
+.lyear-wrapper {
+    position: relative;
+}
+.lyear-login {
+    display: flex !important;
+    min-height: 100vh;
+    align-items: center !important;
+    justify-content: center !important;
+}
+.lyear-login:after{
+    content: '';
+    min-height: inherit;
+    font-size: 0;
+}
+.login-center {
+    background-color: rgba(255,255,255,.075);
+    min-width: 29.25rem;
+    padding: 2.14286em 3.57143em;
+    border-radius: 3px;
+    margin: 2.85714em;
+}
+.login-header {
+    margin-bottom: 1.5rem !important;
+}
+.login-center .has-feedback.feedback-left .form-control {
+    padding-left: 38px;
+    padding-right: 12px;
+    background-color: rgba(255,255,255,.075);
+    border-color: rgba(255,255,255,.075)
+}
+.login-center .has-feedback.feedback-left .form-control-feedback {
+    left: 0;
+    right: auto;
+    width: 38px;
+    height: 38px;
+    line-height: 38px;
+    z-index: 4;
+    color: #dcdcdc;
+}
+.login-center .has-feedback.feedback-left.row .form-control-feedback {
+    left: 15px;
+}
+.login-center .form-control::-webkit-input-placeholder{ 
+    color: rgba(255, 255, 255, .8);
+} 
+.login-center .form-control:-moz-placeholder{ 
+    color: rgba(255, 255, 255, .8);
+} 
+.login-center .form-control::-moz-placeholder{ 
+    color: rgba(255, 255, 255, .8);
+} 
+.login-center .form-control:-ms-input-placeholder{ 
+    color: rgba(255, 255, 255, .8);
+}
+.login-center .custom-control-label::before {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+.login-center .lyear-checkbox span::before {
+    border-color: rgba(255,255,255,.075)
+}
+.show_msg{
+  width:100%;
+  height:35px;
+  text-align:center;
+  position:fixed;
+  left: 0;
+  z-index: 999;
+}
+.show_span{
+  display: inline-block;
+  height: 35px;
+  padding: 0 15px;
+  line-height: 35px;
+  background:rgba(0,0,0,0.8);
+  border-radius: 50px;
+  color: #fff;
+  font-size: 1em;
+}
+/*背景模糊*/
+.bg:after{
+  content: "";
+  width:100%;
+  height:100%;
+  position: absolute;
+  left:0;
+  top:0;
+  background: inherit;
+  filter: blur(40px);
+  z-index: 2;
+}
+.login-center{
+  z-index:11;
+}
+
+
+</style>
+</head>
+  
+<body>
+<div class="row lyear-wrapper bg" style="background-image: url(/images/login-bg-3.jpg); background-size: cover;">
+  <div class="lyear-login">
+    <div class="login-center">
+      <div class="login-header text-center">
+        <h2><a href="/" title="前往首页"><b>用户登录 </b></a></h2>
+      </div>
+      <form action="/loginUser" method="post">
+        <div class="form-group has-feedback feedback-left">
+          <input type="text" placeholder="请输入您的用户名" class="form-control" name="username" id="username" />
+          <!-- <span class="mdi mdi-account form-control-feedback" aria-hidden="true"></span> -->
+        </div>
+        <div class="form-group has-feedback feedback-left">
+          <input type="password" placeholder="请输入密码" class="form-control" id="password" name="password" />
+          <!-- <span class="mdi mdi-lock form-control-feedback" aria-hidden="true"></span> -->
+        </div>
+        <div class="form-group has-feedback feedback-left row">
+          <div class="col-xs-7">
+<!--            <input type="text" name="captcha" class="form-control" placeholder="验证码">-->
+            <!-- <span class="mdi mdi-check-all form-control-feedback" aria-hidden="true"></span> -->
+          </div>
+          <div class="col-xs-5">
+<!--            <img src="/images/captcha.png" class="pull-right" id="captcha" style="cursor: pointer;"-->
+<!--                 onclick="this.src=this.src+'?d='+Math.random();" title="点击刷新" alt="captcha">-->
+          </div>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-block btn-primary" type="submit" >立即登录</button>
+        </div>
+      </form>
+      <footer class="col-sm-12 text-center text-white">
+        <p class="m-b-0">还没有账号 <a href="/toRegister">前往注册</a></p>
+      </footer>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" th:src="@{/js/jquery.min.js}" src="js/jquery.min.js"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" th:src="@{/js/js.js}" src="js/js.js"></script>
+<script th:inline="javascript">
+  var error = [[${error}]];
+  if(error != null){
+    showMsg(error,'center');
+  }
+</script>
+</body>
+</html>

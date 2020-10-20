@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shiro.demo.dao.SysShoppingCartMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ShoppingCartMap" type="com.shiro.demo.pojo.SysShoppingCart">
+        <id column="cart_id" property="cartId" />
+        <result column="user_id" property="userId" />
+        <result column="course_id" property="courseId" />
+        <result column="course_name" property="courseName" />
+        <result column="user_name" property="userName" />
+        <result column="course_url" property="courseUrl" />
+        <result column="course_description" property="courseDescription" />
+        <result column="course_user_id" property="courseUserId" />
+        <result column="coutse_prices" property="coutsePrices" />
+        <result column="discounted_price" property="discountedPrice" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="ShoppingCartSQL">
+        ${alias}.cart_id, ${alias}.user_id, ${alias}.course_id
+    </sql>
+
+    <select id="selectShoppingCartListcarid" parameterType="java.lang.Integer" resultMap="ShoppingCartMap">
+        select <include refid="ShoppingCartSQL"><property name="alias" value="sc"/></include> from sys_shopping_cart sc
+        where sc.user_id = #{value}
+    </select>
+    <select id="selectShoppingCartList" parameterType="java.lang.Integer" resultMap="ShoppingCartMap">
+    SELECT
+        <include refid="ShoppingCartSQL"><property name="alias" value="sc"/></include>,
+        su.user_name,
+        co.course_name,
+        co.course_url,
+        co.course_description,
+        co.course_user_id,
+        IFNULL(sp.coutse_prices ,0) as coutse_prices,
+        IFNULL(sp.discounted_price ,0) as discounted_price
+    FROM
+        sys_shopping_cart sc
+        LEFT JOIN sys_course co ON sc.course_id = co.course_id
+        LEFT JOIN sys_user su ON co.course_user_id = su.user_id
+				LEFT JOIN sys_prices sp ON co.course_id = sp.course_id
+            where sc.user_id = #{value}
+    </select>
+    <select id="selectCarByCarid"  resultMap="ShoppingCartMap">
+        select sc.user_id, sc.course_id from sys_mycourse sc
+        where sc.course_id = #{cartId} and sc.user_id = #{id}
+    </select>
+    <select id="selectCar"  resultMap="ShoppingCartMap">
+        select sc.user_id, sc.course_id from sys_shopping_cart sc
+        where sc.course_id = #{cartId} and sc.user_id = #{id}
+    </select>
+    <insert id="addCartInfo" parameterType="com.shiro.demo.pojo.SysShoppingCart">
+        insert into sys_shopping_cart(user_id,course_id)
+        values (${userId},${courseId})
+    </insert>
+    <delete id="deleteCartInfo" parameterType="com.shiro.demo.pojo.SysShoppingCart">
+        DELETE FROM sys_shopping_cart WHERE cart_id = #{cartId}
+    </delete>
+    <delete id="deleteCartInfoByUid" parameterType="java.lang.Integer">
+        DELETE FROM sys_shopping_cart WHERE user_id = #{Uid}
+    </delete>
+</mapper>

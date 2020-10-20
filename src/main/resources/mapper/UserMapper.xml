@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shiro.demo.dao.UserMapper">
+
+    <resultMap id="userMap" type="com.shiro.demo.pojo.User">
+        <id property="uid" column="uid" />
+        <result property="username" column="username"/>
+        <result property="loginname" column="loginname"/>
+        <result property="password" column="password" />
+        <result property="phonenumber" column="phonenumber" />
+        <collection property="roles" ofType="com.shiro.demo.pojo.Role" >
+            <id property="rid" column="rid" />
+            <result property="rname" column="rname" />
+            <collection property="permissions" ofType="com.shiro.demo.pojo.Permission">
+                <id property="pid" column="pid"/>
+                <result property="name" column="name" />
+                <result property="url" column="url"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <resultMap id="user" type="com.shiro.demo.pojo.User">
+        <id property="uid" column="uid" />
+        <result property="username" column="username"/>
+        <result property="loginname" column="loginname"/>
+        <result property="password" column="password" />
+        <result property="phonenumber" column="phonenumber" />
+    </resultMap>
+
+    <select id="findByUserName" parameterType="string" resultMap="userMap">
+        select u.*,r.*,p.*
+        from user u
+        inner join user_role ur on ur.uid = u.uid
+        inner join role r on ur.rid = r.rid
+        inner join permission_role pr on pr.rid = r.rid
+        inner join permission p on pr.pid = p.pid
+        where u.username = #{username}
+    </select>
+
+    <select id="findByName" parameterType="string" resultMap="user">
+        select *
+        from user
+        where username = #{username}
+    </select>
+
+    <insert id="insert" parameterType="string">
+        insert
+        into user
+        (username, password) values (#{username},#{password})
+    </insert>
+
+    <update id="update" parameterType="com.shiro.demo.pojo.User">
+        update user
+         <set>
+             <if test="loginname != null">
+                 loginname = #{loginname},
+             </if>
+             <if test="password != null">
+                 password = #{password},
+             </if>
+             <if test="phonenumber != null">
+                 phonenumber = #{phonenumber},
+             </if>
+         </set>
+         where uid = #{uid}
+    </update>
+</mapper>

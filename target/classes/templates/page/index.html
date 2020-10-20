@@ -1,0 +1,295 @@
+﻿<!DOCTYPE html>
+<html lang="zh" class="" xmlns:th="http://www.thymeleaf.org"><!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+	<title>Home</title>
+
+
+	<link rel="stylesheet" type="text/css" href="/revolution/css/settings.css">
+	<link rel="stylesheet" type="text/css" href="/revolution/css/layers.css">
+	<link rel="stylesheet" type="text/css" href="/revolution/css/navigation.css">
+    <link rel="stylesheet" type="text/css" href="/libraries/lib.css">
+	<link rel="stylesheet" type="text/css" href="/css/plugins.css">
+	<link rel="stylesheet" type="text/css" href="/css/navigation-menu.css">
+	<link rel="stylesheet" type="text/css" href="/css/shortcode.css">
+	<link rel="stylesheet" type="text/css" href="/style.css">
+	<script src="/js/jquery.min.js"></script>
+	<script src="/promise.ajax.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/jquery-confirm.css">
+</head>
+
+<body data-offset="200" data-spy="scroll" data-target=".ow-navigation">
+	<div class="main-container">
+		<div id="site-loader" class="load-complete">
+			<div class="loader">
+				<div class="loader-inner ball-clip-rotate">
+					<div></div>
+				</div>
+			</div>
+		</div>
+		<header class="header-section container-fluid no-padding">
+
+			<div class="container-fluid no-padding menu-block">
+				<div class="container">
+					<nav class="navbar navbar-default ow-navigation">
+						<div class="navbar-header">
+							<button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+								<span class="sr-only"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+							<a href="/" class="navbar-brand">网站 <span>首页</span></a>
+						</div>
+						<div class="menu-icon">
+							<ul class="cart">
+								<li>
+									<a href="#" id="search" title="Search"><i class="icon icon-Search"></i></a>
+								</li>
+								<li><a href="/shopping/toProfile" title=""><i class="icon icon-User"></i></a></li>
+							</ul>
+						</div>
+						<div class="navbar-collapse collapse navbar-right" id="navbar">
+							<ul class="nav navbar-nav">
+								<li><a href="/">首页</a></li>
+								<li><a href="/shopping/library">题库</a></li>
+								<li><a href="/shopping/mycart">我的订单</a></li>
+								<li><a href="/mycourse/my-course">我的课程</a></li>
+								<li id="login"><a href="/login">登录</a></li>
+								<li id="loginout"><a href="/logout" onclick="window.localStorage.clear();">退出</a></li>
+							</ul>
+						</div>
+					</nav>
+					<div class="search-box">
+						<span><i class="icon_close"></i></span>
+						<form action="/courses/search">
+							<input type="text" name="courseName" class="form-control" placeholder="输入关键字并按Enter键..." />
+						</form>
+					</div>
+				</div>
+			</div>
+		</header>
+		<main>
+			<div id="home-revslider" class="slider-section container-fluid no-padding">
+				<div class="rev_slider_wrapper">
+					<div id="home-slider1" class="rev_slider" data-version="5.0">
+						<ul>
+							<li th:each="item:${imglist}" data-transition="zoomout" data-slotamount="default"
+								data-easein="easeInOut"
+								 data-easeout="easeInOut" data-masterspeed="2000" data-rotate="0"  data-fstransition="fade" data-fsmasterspeed="1500" data-fsslotamount="7">
+								<img th:src="'http://114.116.226.207:8080/'+${item.url}" alt="slider" data-bgposition="center center"
+									 data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="10" class="rev-slidebg" data-no-retina>
+
+							</li>
+<!--							-->
+<!--							<li data-transition="zoomout" data-slotamount="default"  data-easein="easeInOut" data-easeout="easeInOut" data-masterspeed="2000" data-rotate="0"  data-fstransition="fade" data-fsmasterspeed="1500" data-fsslotamount="7">-->
+<!--								<img src="images/slider-1.jpg" alt="slider" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="10" class="rev-slidebg" data-no-retina>-->
+<!--								-->
+<!--							</li>-->
+						</ul>
+					</div>
+				</div>
+
+			</div>
+			<div id="product-section" class="product-section container-fluid no-padding">
+				<div class="container">
+					<div class="row">
+						<ul id="filters" class="products-categories no-left-padding">
+							<li th:each="item : ${courseclass.list}">
+								<a href="#" th:onclick="'getCourseByClassId(\'' + ${item.classId} + '\');'"
+								   th:text="${item.className}"></a>
+							</li>
+						</ul>
+						<ul class="products" id="products" style="height: 896px;">
+							<li class="product design" th:each="item : ${courselist.list}">
+								<a th:href="'/play/1249297909e20e53885d26c910575f53/'+${item.courseId}" target="_blank">
+									<img  style='height: 300px;width: 270px;' th:src="'http://114.116.226.207:8080/'+${item.courseUrl}" alt="Product" />
+									<h5 th:text="${item.courseName}"></h5>
+									<span class="price"
+										  th:text="'$'+${((item.coutsePrices==null)? 0:item.coutsePrices)}"></span>
+								</a>
+								<div class="wishlist-box">
+								</div>
+								<a href="javasript:void(0)" th:onclick="'addShopping(\'' + ${item.courseId} + '\');'"
+								   class="addto-cart" title="添加到我的订单">添加到我的订单</a>
+							</li>
+						</ul>
+					</div>
+					<nav class="ow-pagination">
+						<ul class="pager">
+							<li class="load-more"><a href="/courses/more?title=更多">查看更多</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+
+
+			<div id="dealing" class="dealing-section2 shop-single dealing-section container-fluid no-padding">
+				<div class="container">
+					<div class="row">
+					<div class="section-header">
+						<h3>免费观看</h3>
+						<p>描述介绍描述介绍描述介绍描述介绍描述介绍描述介绍描述介绍描述介绍描述介绍</p>
+
+					</div>
+					<ul class="products" id="free-courses" style="margin-left: 90px;">
+						<li class="product design" th:each="item : ${coursefreelist}">
+							<a th:href="'/play/1249297909e20e53885d26c910575f53/'+${item.courseId}" target="_blank">
+								<img  style='height: 300px;width: 270px;' th:src="'http://114.116.226.207:8080/'+${item.courseUrl}" alt="Product" />
+								<h5 th:text="${item.courseName}"></h5>
+								<span class="price"
+									  th:text="'$'+${((item.coutsePrices==null)? 0:item.coutsePrices)}"></span>
+							</a>
+							<div class="wishlist-box">
+							</div>
+							<a href="javasript:void(0)" th:onclick="'addShopping(\'' + ${item.courseId} + '\');'"
+							   class="addto-cart" title="添加到我的订单">添加到我的订单</a>
+						</li>
+					</ul>
+					</div>
+				</div>
+			</div>
+			<div id="dealing2" class="dealing-section2 shop-single dealing-section container-fluid no-padding">
+				<div class="container">
+					<div class="section-header">
+						<h3>基础课程</h3>
+						<p>描述介绍描述介绍描述介绍描述介绍描述介绍描述介绍描述介绍描述介绍描述介绍</p>
+
+					</div>
+					<ul class="products" id="basic" style="margin-left: 90px;">
+						<li class="product design" th:each="item : ${coursebasiclist}">
+							<a th:href="'/play/1249297909e20e53885d26c910575f53/'+${item.courseId}" target="_blank">
+								<img  style='height: 300px;width: 270px;' th:src="'http://114.116.226.207:8080/'+${item.courseUrl}" alt="Product" />
+								<h5 th:text="${item.courseName}"></h5>
+								<span class="price"
+									  th:text="'$'+${((item.coutsePrices==null)? 0:item.coutsePrices)}"></span>
+							</a>
+							<div class="wishlist-box">
+							</div>
+							<a href="javasript:void(0)" th:onclick="'addShopping(\'' + ${item.courseId} + '\');'"
+							   class="addto-cart" title="添加到我的订单">添加到我的订单</a>
+						</li>
+					</ul>
+
+				</div>
+			</div>
+			<div id="dealing3" class="dealing-section2 shop-single dealing-section container-fluid no-padding">
+				<div class="container">
+					<div class="section-header">
+						<h3>超级课程</h3>
+						<p>描述介绍描述介绍描述介绍描述介绍描述介绍描述介绍描述介绍描述介绍描述介绍</p>
+
+					</div>
+					<ul class="products" id="senior" style="margin-left: 90px;">
+						<li class="product design" th:each="item : ${courseseniorlist}">
+							<a th:href="'/play/1249297909e20e53885d26c910575f53/'+${item.courseId}" target="_blank">
+								<img  style='height: 300px;width: 270px;' th:src="'http://114.116.226.207:8080/'+${item.courseUrl}" alt="Product" />
+								<h5 th:text="${item.courseName}"></h5>
+								<span class="price"
+									  th:text="'$'+${((item.coutsePrices==null)? 0:item.coutsePrices)}"></span>
+							</a>
+							<div class="wishlist-box">
+							</div>
+							<a href="javasript:void(0)" th:onclick="'addShopping(\'' + ${item.courseId} + '\');'"
+							   class="addto-cart" title="添加到我的订单">添加到我的订单</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</main>
+
+
+
+	</div>
+
+	<script src="/js/jquery.min.js"></script>
+	<script src="/libraries/lib.js"></script>
+	<script type="text/javascript" src="/revolution/js/jquery.themepunch.tools.min.js?rev=5.0"></script>
+	<script type="text/javascript" src="/revolution/js/jquery.themepunch.revolution.min.js?rev=5.0"></script>
+	<script type="text/javascript" src="/revolution/js/extensions/revolution.extension.video.min.js"></script>
+	<script type="text/javascript" src="/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+	<script type="text/javascript" src="/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+	<script type="text/javascript" src="/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+	<script type="text/javascript" src="/revolution/js/extensions/revolution.extension.actions.min.js"></script>
+	<script type="text/javascript" src="/js/jquery-comfirm.js"></script>
+	<script src="/js/functions.js"></script>
+	<script th:inline="javascript">
+		var message = [[${userinfo}]];
+		if(message != null){
+			var storage = window.localStorage;
+			storage.setItem("uid",message.uid);
+			storage.setItem("username",message.username);
+		}
+		if(message != null) {
+			var getIid = storage["uid"];
+			var getPwd = storage["username"];
+			if (getIid === undefined || getPwd === undefined) {
+				$("#loginout").remove();
+			} else {
+				$("#login").remove();
+			}
+		}
+		function getCourseByClassId(classId) {
+			AjaxParameterBase("get","/course/list",{
+				"page": 1,
+				"limit": 8,
+				"classId":classId
+			}).then(res => {
+				var productstr = "";
+				res.list.map(n => {
+					if(n.coutseDiscounted === "0"){
+						productstr +=
+								"<li class='product '><a href='playvideo.html'><img style='height: 300px;width: 270px;' src='http://114.116.226.207:8080/"+n.courseUrl+"' alt='Product'/><h5>"+((n.courseName==null)? 0:n.courseName)+"</h5><span class='price'><del>$"+((n.coutsePrices==null)? 0:n.coutsePrices)+"</del>$"+((n.coutsePrices==null)? 0:n.coutsePrices)+"</span></a><div class='wishlist-box'></div><a href='javasript:void(0);' onclick='addShopping("+n.courseId+")' class='addto-cart' title='添加到我的订单'>添加到我的订单</a></li>";
+					}else {
+						productstr +=
+								"<li class='product '><a href='playvideo.html'><img style='height: 300px;width: 270px;' src='http://114.116.226.207:8080/"+n.courseUrl+"' alt='Product'/><h5>"+((n.courseName==null)? 0:n.courseName)+"</h5><span class='price'><del>$"+((n.coutsePrices==null)? 0:n.coutsePrices)+"</del>$"+((n.discountedPrice==null)? 0:n.discountedPrice)+"</span></a><div class='wishlist-box'></div><a href='javasript:void(0);' onclick='addShopping("+n.courseId+")' class='addto-cart' title='添加到我的订单'>添加到我的订单</a></li>";
+					}
+				});
+				$("#products").find("li").remove();
+				$("#products").append(productstr);
+			});
+			$("#products").height(896);
+		}
+		function addShopping(id) {
+			AjaxParameterBase("post","/shopping/add",{"id":id}).then(res =>{
+				if(res.code == 0){
+					$.confirm({
+						title: '信息提示',
+						content: '添加成功，前往查看订单。',
+						type: 'green',
+						icon: 'glyphicon glyphicon-question-sign',
+						buttons: {
+							ok: {
+								text: '确认',
+								btnClass: 'btn-primary',
+								action: function() {
+									location.href = "/shopping/mycart"; //指向下载资源（此处为目标文件的输出数据流）
+								}
+							},
+							cancel: {
+								text: '取消',
+								btnClass: 'btn-primary'
+							}
+						}
+					});
+				}else if(res.msg == "该课程已购买！"){
+					alert("该课程已购买！");
+				}else if(res.msg == "该课程已加入购物车！"){
+					alert("该课程已加入购物车！");
+				}else {
+					window.location.replace("/login");
+				}
+
+			}).catch((e) => alert("请前往登录！"))
+		}
+	</script>
+</body>
+</html>
+

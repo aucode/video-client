@@ -1,0 +1,376 @@
+﻿<!DOCTYPE html >
+<!--[if lt IE 7 ]> <html class="ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html class="ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--><html lang="zh" class="" xmlns:th="http://www.thymeleaf.org"><!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+	<title>我的订单</title>
+
+	<!-- Library - Google Font Familys -->
+	<link href="https://fonts.googleapis.com/css?family=Arizonia|Crimson+Text:400,400i,600,600i,700,700i|Lato:100,100i,300,300i,400,400i,700,700i,900,900i|Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+	
+	<link rel="stylesheet" type="text/css" href="/revolution/css/settings.css">
+ 
+	<!-- RS5.0 Layers and Navigation Styles -->
+	<link rel="stylesheet" type="text/css" href="/revolution/css/layers.css">
+	<link rel="stylesheet" type="text/css" href="/revolution/css/navigation.css">
+	
+	<!-- Library - Bootstrap v3.3.5 -->
+    <link rel="stylesheet" type="text/css" th:href="@{/libraries/lib.css}" href="/libraries/lib.css">
+	
+	<!-- Custom - Common CSS -->
+	<link rel="stylesheet" type="text/css" href="/css/plugins.css">
+	<link rel="stylesheet" type="text/css" href="/css/navigation-menu.css">
+	<link rel="stylesheet" type="text/css" href="/css/shortcode.css">
+	<link rel="stylesheet" type="text/css" href="/style.css">
+	<link rel="stylesheet" type="text/css" href="/css/jquery-confirm.css">
+	<script src="/promise.ajax.js"></script>
+
+	<!-- JQuery v1.12.4 -->
+	<script src="/js/jquery.min.js"></script>
+	<!--[if lt IE 9]>
+		<script src="/js/html5/respond.min.js"></script>
+    <![endif]-->
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<script src="/js/bootstrap.min.js"></script>
+<style>
+	.woocommerce-cart .cart-collaterals .cart_totals .wc-proceed-to-checkout button {
+		border: 1px solid #b6795f;
+		color: #b6795f;
+		display: inline-block;
+		font-size: 13px;
+		font-family: 'Montserrat', sans-serif;
+		letter-spacing: 0.52px;
+		margin-bottom: 18px;
+		padding: 12px 20px 11px;
+		text-decoration: none;
+		text-transform: uppercase;
+		-webkit-transition: all 1s ease 0s;
+		-moz-transition: all 1s ease 0s;
+		-o-transition: all 1s ease 0s;
+		transition: all 1s ease 0s;
+	}
+</style>
+
+</head>
+
+<body data-offset="200" data-spy="scroll" data-target=".ow-navigation">
+	<div class="main-container">
+		<!-- Loader -->
+		<div id="site-loader" class="load-complete">
+			<div class="loader">
+				<div class="loader-inner ball-clip-rotate">
+					<div></div>
+				</div>
+			</div>
+		</div><!-- Loader /- -->	
+		
+		<!-- Header -->
+		<header class="header-section header-section-1 container-fluid no-padding">
+			<!-- Menu Block -->
+			<div class="container-fluid no-padding menu-block" style="background-color: #FFFFFF;border-bottom: 1px #b4b4b4 solid;">
+				<!-- Container -->
+				<div class="container">
+					<!-- nav -->
+					<nav class="navbar navbar-default ow-navigation"  style="float: left;">
+						<div class="navbar-header">
+							<button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+							<a href="/" class="navbar-brand">网站 <span>首页</span></a>
+						</div>
+						<div class="navbar-collapse collapse" id="navbar">
+							<ul class="nav navbar-nav">
+								<li><a href="/index">首页</a></li>
+								<li><a href="/mycourse/my-course">我的课程</a></li>
+								<li><a href="checkout.html">退出</a></li>
+							</ul>
+						</div><!--/.nav-collapse -->
+					</nav><!-- nav /- -->
+				</div><!-- Container /- -->
+			</div><!-- Menu Block /- -->
+		</header><!-- Header /- -->
+		
+		<main style="margin-top: 40px;">
+			<!-- Cart -->
+			<div class="woocommerce-cart container-fluid no-left-padding no-right-padding">
+				<!-- Container -->
+				<div class="container">
+					<!-- Cart Table -->
+					<div class="col-md-12 col-sm-12 col-xs-12 cart-table">
+						<form>
+							<table class="table table-bordered table-responsive">
+								<thead>
+									<tr>
+										<th class="product-thumbnail">课程封面</th>
+										<th class="product-name">课程名称</th>
+										<th class="product-quantity">数量</th>
+										<th class="product-unit-price">价格</th>
+										<th class="product-subtotal">总价格</th>
+										<th class="product-remove">删除</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class="cart_item" th:each="item : ${cart}" th:data-name="${item.courseId}"
+										target="_top">
+										<td data-title="Item" class="product-thumbnail"><a
+												th:href="'/ppppppp'+${item.cartId}"><img
+												th:src="'http://114.116.226.207:8080/'+${item.courseUrl}" alt="Product"
+										/></a></td>
+										<td data-title="Product Name" class=""><a href="playvideo.html"
+										th:text="${item.courseName}">mens casual shoe</a></td>
+										<td data-title="Quantity" class="product-quantity">
+											<div class="prd-quantity" data-title="Quantity">
+												<input name="quantity1" value="1" class="qty" type="text" readonly>
+											</div>
+										</td>
+										<td data-title="Unit Price" class="product-unit-price"
+											th:text="'$'+(${(item.discountedPrice ==0)?item.coutsePrices:item.coutsePrices})">$550</td>
+										<td data-title="Total"  class="Total product-subtotal"
+											th:text="'$'+${(item.discountedPrice ==0)?item.coutsePrices:item.coutsePrices}">$550</td>
+										<td data-title="Remove" class="product-remove"><a  href="javasript:void(0)"
+																						   th:onclick="'delectShopping(' + ${item.cartId} + ');'"
+																						   ><i class="icon icon-Delete"></i></a></td>
+									</tr>
+								</tbody>
+							</table>
+						</form>
+					</div><!-- Cart Table /- -->
+					<div class="col-md-4 col-sm-6 col-xs-6 cart-collaterals" id="cart-totals">
+						<div class="cart_totals">
+							<h3>价格总计</h3>
+							<table>
+								<tr>
+									<th>小计</th>
+									<td id="total">$550</td>
+								</tr>
+								<tr>
+									<th>数量</th>
+									<td id="number">1</td>
+								</tr>
+								<tr>
+									<th>支付方式</th>
+									<td class="payment-method">
+										<div class="btn-group" data-toggle="buttons">
+											<label class="btn btn-primary active" onclick="formaction('/pay');">
+												<input type="radio" name="options" value="Alipay"
+
+													   id="option1"
+													   checked>
+												支付宝
+											</label>
+											<label class="btn btn-primary" onclick="formaction('/WeChatpay');" >
+												<input type="radio" name="options" value="WeChatpay" id="option2">
+												微&nbsp;&nbsp;信
+											</label>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th>总价格</th>
+									<td id="totals">$550</td>
+								</tr>
+							</table>
+							<form action="/pay" name="formpay" method="post">
+								<div class="wc-proceed-to-checkout">
+									<button type="submit"  class="checkout-button button alt wc-forward">进行结算</button>
+									<input type="hidden" value="10" name="courseId"/>
+									<input type="hidden" value="10" name="uid"/>
+
+									<input type="hidden" id="total1" value="10" name="total" />
+
+<!--									<button type="submit">00000</button> onclick="purchase();"-->
+								</div>
+								<script>
+									let ids = "";
+									$(".cart_item").each(function () {
+										ids += ($(this).data("name"))+",";
+									});
+									$('input[name="courseId"]').val(ids);
+									function formaction(pay) {
+
+										document.formpay.action=pay;
+									}
+								</script>
+
+								<script>
+									// debugger;
+									let listarr = $(".Total").text();
+									var strArr=listarr.split("$");
+									var totals = 0;
+									for(j = 1,len=strArr.length; j < len; j++) {
+										totals += strArr[j]*1;
+									};
+									if(totals == 0){
+										$("#cart-totals").remove();
+									}else{
+										$("#number").text(strArr.length-1);
+										$("#total").text("$"+totals);
+										$("#totals").text("$"+totals);
+										$('input[name="total"]').val(totals);
+										var storage = window.localStorage;
+										$('input[name="uid"]').val(storage["uid"]);
+									}
+								</script>
+							</form>
+						</div>
+					</div>
+				</div><!-- Container /- -->
+			</div><!-- Cart /- -->
+			
+		</main>
+		<!-- 模态框（Modal） -->
+		<div class="modal fade in" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+			 aria-hidden="true" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+								aria-hidden="true" onclick="modal();">×
+						</button>
+						<h4 class="modal-title" id="myModalLabel">
+							消息提示
+						</h4>
+					</div>
+					<div class="modal-body">
+						未购买该课程。
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary"
+								data-dismiss="modal" onclick="modal();">关闭
+						</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+	</div>
+
+
+	<!-- Library - Js -->
+	<script src="/libraries/lib.js"></script>
+	
+	<script src="/libraries/jquery.countdown.min.js"></script>
+	
+	<!-- RS5.0 Core JS Files -->
+	<script type="text/javascript" src="/revolution/js/jquery.themepunch.tools.min.js?rev=5.0"></script>
+	<script type="text/javascript" src="/revolution/js/jquery.themepunch.revolution.min.js?rev=5.0"></script>
+	<script type="text/javascript" src="/revolution/js/extensions/revolution.extension.video.min.js"></script>
+	<script type="text/javascript" src="/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+	<script type="text/javascript" src="/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+	<script type="text/javascript" src="/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+	
+	<!-- Library - Google Map API -->
+	<!---<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW40y4kdsjsz714OVTvrw7woVCpD8EbLE"></script>--->
+
+	<!-- Library - Theme JS -->
+	<script src="/js/functions.js"></script>
+	<script type="text/javascript" src="/js/jquery-comfirm.js"></script>
+</body>
+<script th:inline="javascript">
+
+	function delectShopping(carid) {
+		AjaxParameterBase("post","/shopping/delete",{"cartId":carid}).then(res =>{
+			// debugger;
+			if(res.code == 0){
+				$.confirm({
+					title: '信息提示',
+					content: '删除成功。',
+					type: 'green',
+					icon: 'glyphicon glyphicon-question-sign',
+					buttons: {
+						ok: {
+							text: '确认',
+							btnClass: 'btn-primary',
+							action: function() {
+								location.href = "/shopping/mycart";
+							}
+						},
+						cancel: {
+							text: '取消',
+							btnClass: 'btn-primary',
+							action: function() {
+								// AjaxParameterBase("get","/shopping/mycart","");
+								location.href = "/shopping/mycart";
+							}
+						}
+					}
+				});
+			}else {
+				location.href = "/login";
+			}
+		}).catch((e) => location.href = "/login");
+
+	}
+	let hidden = "false";
+	if(hidden != "false"){
+		$("#myModal").css("display","block");
+
+	}else {
+		$("#myModal").css("display","none");
+	}
+	function modal() {
+		$("#myModal").css("display","none");
+	}
+	function purchase() {
+		let attribute = "";
+		$(".cart_item").each(function () {
+			attribute += ($(this).data("name"))+",";
+		});
+		let PayMethod = $("input:radio:checked").val();
+		let text = $("#totals").text();
+		let slice = text.slice(1);
+		if(attribute != "" && $("input:radio:checked").val() != ""){
+			// AjaxParameterBase("post","/mycourse/add",{"courseId":attribute,"Paymethod":PayMethod}).then(res =>{
+			AjaxParameterBase("post","/pay",{"courseId":attribute,"Paymethod":PayMethod,"total":slice}).then(res =>{
+				if(res.code == 0){
+					$.confirm({
+						title: '信息提示',
+						content: '购买成功。',
+						type: 'green',
+						icon: 'glyphicon glyphicon-question-sign',
+						buttons: {
+							ok: {
+								text: '确认',
+								btnClass: 'btn-primary',
+								action: function() {
+									location.href = "/shopping/mycart";
+								}
+							},
+							cancel: {
+								text: '取消',
+								btnClass: 'btn-primary',
+								action: function() {
+									location.href = "/shopping/mycart";
+								}
+							}
+						}
+					});
+				}else if(res.code == 301){
+					$("#myModal").css("display","block");
+					$(".modal-body").text(res.msg);
+				}else {
+					location.href = "/login";
+				}
+			}).catch((e) => {
+				debugger;
+				console.log(e)
+				location.href = "/login"});
+
+		}
+	}
+</script>
+</html>
+	
+

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shiro.demo.dao.SysChaptersMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ChaptersMap" type="com.shiro.demo.pojo.SysChapters">
+        <id column="chapters_id" property="chaptersId" />
+        <result column="chapters_name" property="chaptersName" />
+        <result column="chapters_url" property="chaptersUrl" />
+        <result column="chapters_purchase" property="chaptersPurchase" />
+        <result column="course_id" property="courseId" />
+        <result column="count" property="count" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="ChaptersSQL">
+        chapters_id, chapters_name, chapters_url, chapters_purchase, course_id
+    </sql>
+
+    <select id="queryChaptersByChaptersId" parameterType="com.shiro.demo.pojo.SysChapters" resultMap="ChaptersMap">
+        select
+        <include refid="ChaptersSQL"></include>
+        FROM sys_chapters
+        where chapters_id = #{chaptersId}
+    </select>
+    <select id="queryChaptersByCourseId" parameterType="com.shiro.demo.pojo.SysChapters" resultMap="ChaptersMap">
+        select
+        <include refid="ChaptersSQL"></include>,(select count(*) from sys_chapters where course_id = #{courseId}) count
+        FROM sys_chapters
+        where course_id = #{courseId} ORDER BY chapters_id ASC
+    </select>
+
+    <insert id="saveChatersInfoByCourseId" parameterType="com.shiro.demo.pojo.SysChapters">
+        INSERT INTO sys_chapters(chapters_name, chapters_url, chapters_purchase, course_id)
+                       VALUES(#{chaptersName}, #{chaptersUrl}, #{chaptersPurchase}, #{courseId});
+    </insert>
+    <select id="selectChaptersList" parameterType="com.shiro.demo.pojo.SysChapters" resultMap="ChaptersMap">
+        select
+        <include refid="ChaptersSQL"></include>
+        FROM sys_chapters
+            where course_id = #{courseId}
+    </select>
+</mapper>
